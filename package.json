@@ -1,0 +1,35 @@
+{
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "Usual frontent",
+    "private": true,
+    "scripts": {
+        "build": "webpack --mode production",
+        "dev": "webpack --config webpack.config.js --mode development",
+        "watch": "webpack --watch --config webpack.config.js --mode development"
+    },
+    "author": "david",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.7.7",
+        "@babel/preset-env": "^7.7.7",
+        "autoprefixer": "^9.7.3",
+        "babel-loader": "^8.0.6",
+        "clean-webpack-plugin": "^3.0.0",
+        "css-loader": "^3.4.0",
+        "cssnano": "^4.1.10",
+        "file-loader": "^5.0.2",
+        "image-webpack-loader": "^6.0.0",
+        "mini-css-extract-plugin": "^0.9.0",
+        "postcss-import": "^12.0.1",
+        "postcss-loader": "^3.0.0",
+        "style-loader": "^1.1.2",
+        "tailwindcss": "^1.1.4",
+        "webpack": "^4.41.4",
+        "webpack-cli": "^3.3.10"
+    },
+    "dependencies": {
+        "vue": "^2.6.11",
+        "vue-loader": "^15.8.3"
+    }
+}

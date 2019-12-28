@@ -4,9 +4,9 @@
     "description": "Usual frontent",
     "private": true,
     "scripts": {
-        "build": "webpack -p",
+        "build": "webpack --config webpack.prod.js",
         "dev": "webpack --config webpack.dev.js --mode development  --progress",
-        "watch": "webpack --watch"
+        "watch": "webpack --watch --config webpack.dev.js --mode development"
     },
     "author": "david",
     "license": "MIT",

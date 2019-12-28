@@ -5,9 +5,11 @@
   </div>
 </template>
 
+
 <script>
 export default {
-  name: "Example"
+  name: "Example",
+
 };
 </script>
 <style scoped>

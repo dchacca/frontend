@@ -2,5 +2,8 @@
 
 @tailwind components;
 
-@tailwind utilities;
+.btn{
+    @apply bg-black text-white font-mono rounded-lg text-3xl p-3;
+}
 
+@tailwind utilities;

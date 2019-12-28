@@ -1,13 +1,20 @@
 const path = require('path');
+const glob = require('glob');
 const { VueLoaderPlugin } = require('vue-loader');
-const tailwindcss = require('tailwindcss');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+const PATHS = {
+    src: path.join(__dirname, 'src')
+}
+
 module.exports = {
-    mode: 'development',
-    entry: './src/index.js',
+    mode: 'production',
+    entry: {
+        app: './src/index.js',
+    },
     output: {
-        filename: 'main.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
     resolve: {
@@ -30,25 +37,40 @@ module.exports = {
             },
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                use: [
+                    { loader: 'vue-loader' },
+
+                ]
+
             },
             {
                 // Apply rule for .css files
                 test: /\.css$/,// Set loaders to transform files.
                 use: [
-                    { loader: MiniCssExtractPlugin.loader },
-                    /* 'vue-style-loader', */
-                    { loader: "css-loader", },
+
+                    MiniCssExtractPlugin.loader,
+
+                    'css-loader',
                     {
                         loader: 'postcss-loader',
                         options: {
                             ident: 'postcss',
                             plugins: [
-                                tailwindcss('./tailwind.config.js'),
+                                require('tailwindcss')('./tailwind.config.js'),
                                 require('autoprefixer'),
+                                require('@fullhuman/postcss-purgecss')({
+                                    content: [
+                                        './src/**/*.vue',
+                                        './index.html',
+                                    ],
+                                    defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
+                                }),
+                                require('cssnano')(),
+
                             ],
                         },
-                    }
+                    },
+
                 ]
             },
             {
@@ -89,12 +111,17 @@ module.exports = {
             },
         ]
     },
+    devtool: 'source-map',
     plugins: [
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),
         new MiniCssExtractPlugin({
-            filename: "dist.bundle.css"
-        })
+            filename: '[name].css'
+        }),
+        /*  new ExtractTextPlugin('[name].css?[hash]'),
+         new PurgecssPlugin({
+             paths: glob.sync(`${PATHS.src}/*`)
+         }) */
 
     ]
 };

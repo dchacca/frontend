@@ -49,15 +49,10 @@ module.exports = {
             {
                 // Apply rule for .css files
                 test: /\.css$/,// Set loaders to transform files.
-                exclude: /node_modules/,
                 use: [
-                    /* devMode ? 'style-loader' : MiniCssExtractPlugin.loader, */
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: process.env.NODE_ENV === 'development',
-                        },
-                    },
+
+                    MiniCssExtractPlugin.loader,
+
                     'css-loader',
                     {
                         loader: 'postcss-loader',

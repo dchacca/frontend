@@ -1,10 +1,7 @@
 const path = require('path');
 const glob = require('glob');
-const devMode = process.env.NODE_ENV !== 'production';
 const { VueLoaderPlugin } = require('vue-loader');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const PurgecssPlugin = require('purgecss-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const PATHS = {
@@ -12,7 +9,7 @@ const PATHS = {
 }
 
 module.exports = {
-    mode: devMode ? 'development' : 'production',
+    mode: 'development',
     entry: {
         app: './src/index.js',
     },
@@ -41,8 +38,9 @@ module.exports = {
             {
                 test: /\.vue$/,
                 use: [
-                    { loader: 'vue-loader' },
-                    /* 'vue-style-loader', */
+                    'vue-loader',
+                    /*  'vue-style-loader' */
+
                 ]
                 /*  loader: 'vue-loader' */
             },
@@ -51,31 +49,15 @@ module.exports = {
                 test: /\.css$/,// Set loaders to transform files.
                 exclude: /node_modules/,
                 use: [
-                    /* devMode ? 'style-loader' : MiniCssExtractPlugin.loader, */
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            hmr: process.env.NODE_ENV === 'development',
-                        },
-                    },
+                    'style-loader',
                     'css-loader',
                     {
                         loader: 'postcss-loader',
                         options: {
                             ident: 'postcss',
                             plugins: [
-                                require('postcss-import'),
                                 require('tailwindcss')('./tailwind.config.js'),
                                 require('autoprefixer'),
-                                process.env.NODE_ENV === 'production' && require('@fullhuman/postcss-purgecss')({
-                                    content: [
-                                        './src/**/*.vue',
-                                        './index.html',
-                                    ],
-                                    defaultExtractor: content => content.match(/[A-Za-z0-9-_:/]+/g) || []
-                                }),
-                                require('cssnano')(),
-
                             ],
                         },
                     },
@@ -124,9 +106,9 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),
-        new MiniCssExtractPlugin({
+        /* new MiniCssExtractPlugin({
             filename: devMode ? '[name].css' : '[name].[hash].css'
-        }),
+        }), */
         /*  new ExtractTextPlugin('[name].css?[hash]'),
          new PurgecssPlugin({
              paths: glob.sync(`${PATHS.src}/*`)
